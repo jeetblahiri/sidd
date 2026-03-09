@@ -107,14 +107,23 @@
     .card h3 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--accent-navy); margin-bottom: 15px; }
     .card p { color: var(--text-muted); margin-bottom: 25px; }
 
-    /* Talks Section */
-    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    /* Talks & Media Section */
+    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px;}
     .video-wrapper {
         position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
         border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
     }
     .video-wrapper.shorts { padding-bottom: 177.7%; }
     .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    
+    .image-wrapper {
+        position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+        border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    .image-wrapper img {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+    }
+    .image-wrapper:hover img { transform: scale(1.05); }
 
     /* Blog Grid (New Section) */
     .blog-grid {
@@ -268,6 +277,7 @@
 
     <section id="media" class="container">
         <h2 class="section-title">Media & Talks</h2>
+        
         <div class="video-grid">
             <div>
                 <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">Intersection of Biomed & Tech</h4>
@@ -282,9 +292,44 @@
                 </div>
             </div>
             <div>
+                <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">Healthcare Discussion</h4>
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube-nocookie.com/embed/v1plOLcFJmU?start=7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-grid">
+            <div>
                 <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">Quick Insights</h4>
                 <div class="video-wrapper shorts">
                     <iframe src="https://www.youtube-nocookie.com/embed/apry6U2iTU8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">Instagram Feature</h4>
+                <div class="video-wrapper shorts">
+                    <iframe src="https://www.instagram.com/reel/DTSqA8ZjRR5/embed/" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">With Prof. Raj Reddy</h4>
+                <div class="image-wrapper" style="padding-bottom: 177.7%;"> <img src="ProfReddy.jfif" alt="With Prof Raj Reddy">
+                </div>
+            </div>
+        </div>
+
+        <div class="video-grid" style="grid-template-columns: 1fr 1fr; max-width: 900px; margin: 0 auto;">
+            <div>
+                <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">With Hon'ble PM Narendra Modi</h4>
+                <div class="image-wrapper">
+                    <img src="Modiji.jfif" alt="Meeting with PM Modi">
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">Interaction with Hon'ble PM</h4>
+                <div class="image-wrapper">
+                    <img src="Modiji_2.jfif" alt="Interaction with PM Modi">
                 </div>
             </div>
         </div>
@@ -301,7 +346,14 @@
                 <span class="read-more">Read Essay &rarr;</span>
             </div>
             
+            <div class="blog-card" onclick="openArticle('article-2')">
+                <span class="blog-date">March 2026</span>
+                <h3 class="blog-title">The Coming Dystopia of Frictionless Thought</h3>
+                <p class="blog-excerpt">Brain computer interfaces hold extraordinary promise. They can help people with severe disability regain communication and control, assist in monitoring mental health, and allow us to measure subtle emotional and cognitive markers...</p>
+                <span class="read-more">Read Essay &rarr;</span>
             </div>
+
+        </div>
     </section>
 
     <section id="publications" class="container">
@@ -423,6 +475,29 @@
                 <p>Second, we should acknowledge that consciousness itself may sit outside the reach of a purely materialist and computational description. Brains matter. Biology matters. Neural dynamics matter. But they may be closer to shower heads and lenses than to generators of being. They shape a field that they did not create.</p>
                 <p>Consciousness, on this picture, is not the last domino that materialism will eventually knock over. It is the one thing materialism keeps bouncing off, because it stands behind every observation, behind every model, behind every proof, including Gödel’s theorems and our insights into them.</p>
                 <p>That is why I do not believe we will “build” consciousness out of parts, no matter how advanced our engineering becomes. Consciousness is not a product. It is the ground on which all products appear.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="article-2" onclick="closeOnBackground(event, 'article-2')">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeArticle('article-2')">&times;</button>
+            
+            <div class="article-header">
+                <h2 class="article-title">The Coming Dystopia of Frictionless Thought</h2>
+                <span class="article-meta">Published March 2026</span>
+            </div>
+            
+            <div class="article-body">
+                <p>Brain computer interfaces hold extraordinary promise. They can help people with severe disability regain communication and control, assist in monitoring mental health, and allow us to measure subtle emotional and cognitive markers that will become increasingly important as technology continues to accelerate.</p>
+                <p>At NeuroDx, I see the capacity to build the models that could make these possibilities real. The chance to restore lost functions, to understand the brain more deeply, and to design systems that respond intelligently to our inner states is an achievement worth pursuing.</p>
+                <p>Yet, this same path hides a quiet danger. As brain computer interfaces become more seamless, we may no longer need our phones. The interface itself will disappear. What we once accessed at our fingertips will soon be at our thought-tips: instant, intuitive, and irresistibly responsive.</p>
+                <p>At first, this will feel like liberation. No more friction, no more searching, no more swiping. But the disappearance of friction might also mean the disappearance of resilience.</p>
+                <p>When machines can anticipate our emotional needs, soothe discomfort before it arises, and deliver dopamine-rich comfort on thought demand, the human mind may lose something vital. And that is the ability to sit with unease, to self regulate, to grow.</p>
+                <p>The danger is not that machines will dominate us, but that they will pamper us into fragility. And by the time we realize what we have traded away, the integration of man and machine may feel too seamless and too comforting to reverse.</p>
+                <p>We may not scroll anymore. But we might also stop striving.</p>
+                <p>And yet, perhaps the very tool that threatens us could also protect us. A brain computer interface could track the subtle markers of cognitive and emotional decline that it risks inducing and provide guardrails against them. If pursued with awareness, the same technology that could hollow out resilience might instead strengthen it, ushering in a transformative age of cognition where humanity learns to master not just the machine, but itself.</p>
+                <p>To reach that future, we must learn to walk a razor’s edge between empowerment and dependency, between awareness and sedation, between progress and erosion.</p>
             </div>
         </div>
     </div>
