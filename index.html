@@ -122,8 +122,38 @@
     }
     .image-wrapper img {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+        cursor: pointer; /* Change cursor to indicate clickability */
     }
     .image-wrapper:hover img { transform: scale(1.05); }
+
+    /* --- NEW CSS FOR PHOTO MODAL --- */
+    .photo-modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); /* Darker, blurrier background */
+        z-index: 3000; /* Higher z-index than essay modals */
+        display: flex; justify-content: center; align-items: center;
+        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        padding: 40px;
+    }
+    .photo-modal-overlay.active { opacity: 1; pointer-events: auto; }
+    
+    .photo-modal-content {
+        max-width: 100%; max-height: 100%;
+        position: relative;
+        text-align: center;
+    }
+    .full-photo {
+        max-width: 100%;
+        max-height: 90vh; /* Allow space for close button */
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        object-fit: contain; /* Ensure full photo fits without being cut */
+    }
+    .close-photo-modal {
+        position: absolute; top: -50px; right: 0; background: none; border: none;
+        font-size: 40px; font-weight: 200; cursor: pointer; color: white; transition: color 0.2s;
+    }
+    .close-photo-modal:hover { color: var(--accent-gold); }
 
     /* Blog Grid (New Section) */
     .blog-grid {
@@ -198,12 +228,15 @@
         .btn-group { justify-content: center; }
         .two-col, .venture-cards { grid-template-columns: 1fr; }
         .video-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+        .video-grid:last-of-type { grid-template-columns: 1fr; } /* Stack the PM images on mobile */
     }
     @media (max-width: 768px) {
         .nav-links { display: none; }
         .hero-text h1 { font-size: 3.2rem; }
         .modal-content { padding: 40px 30px; }
         .article-title { font-size: 2.2rem; }
+        .photo-modal-overlay { padding: 20px; }
+        .close-photo-modal { top: -40px; right: 10px; font-size: 32px; }
     }
 </style>
 </head>
@@ -314,7 +347,7 @@
             </div>
             <div>
                 <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">With Prof. Raj Reddy</h4>
-                <div class="image-wrapper" style="padding-bottom: 177.7%;"> <img src="ProfReddy.jfif" alt="With Prof Raj Reddy">
+                <div class="image-wrapper" style="padding-bottom: 177.7%;"> <img src="ProfReddy.jfif" id="profReddyPhoto" alt="With Prof Raj Reddy" onclick="openPhotoModal('profReddyPhoto')">
                 </div>
             </div>
         </div>
@@ -323,13 +356,13 @@
             <div>
                 <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">With Hon'ble PM Narendra Modi</h4>
                 <div class="image-wrapper">
-                    <img src="Modiji.jfif" alt="Meeting with PM Modi">
+                    <img src="Modiji.jfif" id="modiPhoto1" alt="Meeting with PM Modi" onclick="openPhotoModal('modiPhoto1')">
                 </div>
             </div>
             <div>
                 <h4 style="margin-bottom: 15px; color: var(--accent-navy); font-weight: 500;">Interaction with Hon'ble PM</h4>
                 <div class="image-wrapper">
-                    <img src="Modiji_2.jfif" alt="Interaction with PM Modi">
+                    <img src="Modiji_2.jfif" id="modiPhoto2" alt="Interaction with PM Modi" onclick="openPhotoModal('modiPhoto2')">
                 </div>
             </div>
         </div>
@@ -402,6 +435,13 @@
             <p style="color: #9ca3af; font-size: 0.85rem;">&copy; 2026 Dr. Siddharth Panwar. All rights reserved.</p>
         </div>
     </footer>
+
+    <div class="photo-modal-overlay" id="photoModal" onclick="closeOnPhotoBackground(event, 'photoModal')">
+        <div class="photo-modal-content">
+            <button class="close-photo-modal" onclick="closePhotoModal()">&times;</button>
+            <img src="" class="full-photo" id="fullPhoto" alt="Full size photo">
+        </div>
+    </div>
 
 
     <div class="modal-overlay" id="article-1" onclick="closeOnBackground(event, 'article-1')">
@@ -513,22 +553,50 @@
             });
         });
 
-        // Open Reading Modal
+        // Open Reading Modal (for essays)
         function openArticle(id) {
             document.getElementById(id).classList.add('active');
             document.body.style.overflow = 'hidden'; // Stop background from scrolling
         }
 
-        // Close Reading Modal
+        // Close Reading Modal (for essays)
         function closeArticle(id) {
             document.getElementById(id).classList.remove('active');
             document.body.style.overflow = 'auto'; // Re-enable background scrolling
         }
 
-        // Close when clicking outside the white box
+        // Close essay modal when clicking outside the white box
         function closeOnBackground(event, id) {
             if (event.target.id === id) {
                 closeArticle(id);
+            }
+        }
+
+        /* --- NEW JAVASCRIPT FOR PHOTO MODAL --- */
+        // Open the photo modal
+        function openPhotoModal(photoId) {
+            // Get the clicked image source
+            var imgSrc = document.getElementById(photoId).src;
+            // Set the modal image source to the clicked image source
+            document.getElementById('fullPhoto').src = imgSrc;
+            // Activate the modal
+            document.getElementById('photoModal').classList.add('active');
+            // Disable background scrolling
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        // Close the photo modal
+        function closePhotoModal() {
+            document.getElementById('photoModal').classList.remove('active');
+            // Re-enable background scrolling
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // Close photo modal when clicking on the dark background overlay
+        function closeOnPhotoBackground(event, id) {
+            // Ensure the click was on the overlay itself, not the photo
+            if (event.target.id === id) {
+                closePhotoModal();
             }
         }
     </script>
