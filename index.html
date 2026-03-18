@@ -155,24 +155,25 @@
     }
     .close-photo-modal:hover { color: var(--accent-gold); }
 
-    /* Blog Grid (New Section) */
+    /* Blog & Featured Grid */
     .blog-grid {
         display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto;
     }
     .blog-card {
         background: var(--surface-color); padding: 35px; border: 1px solid var(--border-color);
         border-radius: 8px; transition: var(--transition); cursor: pointer;
+        height: 100%; display: flex; flex-direction: column;
     }
     .blog-card:hover { border-color: var(--accent-gold); box-shadow: 0 15px 35px rgba(0,0,0,0.06); transform: translateY(-3px); }
     .blog-date {
         font-size: 0.85rem; color: var(--accent-gold); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: block;
     }
     .blog-title { font-family: var(--font-serif); font-size: 1.6rem; color: var(--accent-navy); margin-bottom: 15px; line-height: 1.3; }
-    .blog-excerpt { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6; }
+    .blog-excerpt { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6; flex-grow: 1; }
     .read-more { font-size: 0.9rem; font-weight: 600; color: var(--accent-navy); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: color 0.2s; }
     .blog-card:hover .read-more { color: var(--accent-gold); }
 
-    /* Reading Modal (New Section) */
+    /* Reading Modal */
     .modal-overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(250, 250, 250, 0.97); backdrop-filter: blur(8px);
@@ -228,7 +229,7 @@
         .btn-group { justify-content: center; }
         .two-col, .venture-cards { grid-template-columns: 1fr; }
         .video-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
-        .video-grid:last-of-type { grid-template-columns: 1fr; } /* Stack the PM images on mobile */
+        .video-grid:last-of-type { grid-template-columns: 1fr; } 
     }
     @media (max-width: 768px) {
         .nav-links { display: none; }
@@ -249,6 +250,7 @@
                 <a href="#about">Biography</a>
                 <a href="#ventures">Ventures</a>
                 <a href="#media">Media</a>
+                <a href="#featured">Featured</a>
                 <a href="#essays">Essays</a>
                 <a href="#publications">Publications</a>
             </nav>
@@ -374,6 +376,31 @@
         </div>
     </section>
 
+    <section id="featured" class="container">
+        <h2 class="section-title">Featured</h2>
+        <div class="blog-grid">
+            
+            <a href="https://economictimes.indiatimes.com/markets/bonds/from-hormuz-to-dalal-street-how-middle-east-tensions-are-reshaping-risk-for-india/articleshow/129135981.cms" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="blog-card">
+                    <span class="blog-date">Economic Times</span>
+                    <h3 class="blog-title">From Hormuz to Dalal Street: How Middle East tensions are reshaping risk for India</h3>
+                    <p class="blog-excerpt">An analysis of geopolitical shifts and their impact on India’s market volatility and bond risks in an increasingly interconnected global economy.</p>
+                    <span class="read-more">Read Full Article &rarr;</span>
+                </div>
+            </a>
+
+            <a href="https://www.hindustantimes.com/india-news/ai-models-should-reflect-indian-context-pm-modi-101767901480967-amp.html" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="blog-card">
+                    <span class="blog-date">Hindustan Times</span>
+                    <h3 class="blog-title">AI models should reflect Indian context: PM Modi</h3>
+                    <p class="blog-excerpt">Discussing the necessity for localized AI frameworks that respect India's cultural and linguistic diversity during high-level tech policy dialogues.</p>
+                    <span class="read-more">Read Full Article &rarr;</span>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
     <section id="essays" class="container">
         <h2 class="section-title">Essays & Musings</h2>
         <div class="blog-grid" id="blogContainer">
@@ -448,7 +475,6 @@
             <img src="" class="full-photo" id="fullPhoto" alt="Full size photo">
         </div>
     </div>
-
 
     <div class="modal-overlay" id="article-1" onclick="closeOnBackground(event, 'article-1')">
         <div class="modal-content">
@@ -562,45 +588,35 @@
         // Open Reading Modal (for essays)
         function openArticle(id) {
             document.getElementById(id).classList.add('active');
-            document.body.style.overflow = 'hidden'; // Stop background from scrolling
+            document.body.style.overflow = 'hidden'; 
         }
 
         // Close Reading Modal (for essays)
         function closeArticle(id) {
             document.getElementById(id).classList.remove('active');
-            document.body.style.overflow = 'auto'; // Re-enable background scrolling
+            document.body.style.overflow = 'auto'; 
         }
 
-        // Close essay modal when clicking outside the white box
         function closeOnBackground(event, id) {
             if (event.target.id === id) {
                 closeArticle(id);
             }
         }
 
-        /* --- NEW JAVASCRIPT FOR PHOTO MODAL --- */
-        // Open the photo modal
+        // Photo Modal logic
         function openPhotoModal(photoId) {
-            // Get the clicked image source
             var imgSrc = document.getElementById(photoId).src;
-            // Set the modal image source to the clicked image source
             document.getElementById('fullPhoto').src = imgSrc;
-            // Activate the modal
             document.getElementById('photoModal').classList.add('active');
-            // Disable background scrolling
             document.body.style.overflow = 'hidden'; 
         }
 
-        // Close the photo modal
         function closePhotoModal() {
             document.getElementById('photoModal').classList.remove('active');
-            // Re-enable background scrolling
             document.body.style.overflow = 'auto'; 
         }
 
-        // Close photo modal when clicking on the dark background overlay
         function closeOnPhotoBackground(event, id) {
-            // Ensure the click was on the overlay itself, not the photo
             if (event.target.id === id) {
                 closePhotoModal();
             }
